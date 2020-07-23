@@ -3,8 +3,9 @@ package TTVClient
 import (
 	"encoding/json"
 	"errors"
-	"github.com/theorx/go-ttv-pubsub/pkg/Topic"
 	"time"
+
+	"github.com/TomAvecLeVdsl/go-ttv-pubsub/pkg/Topic"
 )
 
 func (c *Client) readLoop() {
@@ -129,6 +130,18 @@ func (c *Client) handleTopics(msg IncomingMessage) bool {
 
 		if c.moderationHandler != nil {
 			c.moderationHandler(*m)
+		}
+		return true
+	case Topic.TypePoints:
+		m := &PointsMsg{}
+
+		err := json.Unmarshal([]byte(msg.Data.Message), &m)
+		if err != nil {
+			return false
+		}
+
+		if c.pointsHandler != nil {
+			c.pointsHandler(*m)
 		}
 		return true
 	default:

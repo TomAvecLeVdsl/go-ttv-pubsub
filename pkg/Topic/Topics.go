@@ -31,3 +31,7 @@ func Whispers(channelID int) Topic {
 func ModerationAction(userID int, channelID int) Topic {
 	return Topic(fmt.Sprintf("chat_moderator_actions.%d.%d", userID, channelID))
 }
+
+func Points(channelID int) Topic {
+	return Topic(fmt.Sprintf("channel-points-channel-v1.%d", channelID))
+}

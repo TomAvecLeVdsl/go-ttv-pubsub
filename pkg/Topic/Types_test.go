@@ -1,8 +1,9 @@
 package Topic_test
 
 import (
-	"github.com/theorx/go-ttv-pubsub/pkg/Topic"
 	"testing"
+
+	"github.com/TomAvecLeVdsl/go-ttv-pubsub/pkg/Topic"
 )
 
 func TestGetType(t *testing.T) {
@@ -21,6 +22,7 @@ func TestGetType(t *testing.T) {
 		{Topic.TypeSubscriptions, "channel-subscribe-events-v1.44322889"},
 		{Topic.TypeBitsBadgeNotification, "channel-bits-badge-unlocks.44322889"},
 		{Topic.TypeModerationAction, "chat_moderator_actions.test.test"},
+		{Topic.TypePoints, "channel-points-channel-v1.44322889"},
 	}
 
 	for _, test := range table {

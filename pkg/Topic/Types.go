@@ -11,11 +11,13 @@ const (
 	TypeCommerce              = Type("channel-commerce-events-v1")
 	TypeWhispers              = Type("whispers")
 	TypeModerationAction      = Type("chat_moderator_actions")
+	TypePoints                = Type("channel-points-channel-v1")
 	TypeInvalid               = Type("invalid")
 	TypePong                  = Type("PONG")
 	TypeReconnect             = Type("RECONNECT")
 )
 
+//GetType Return event type
 func GetType(topic string) Type {
 	pieces := strings.Split(topic, ".")
 
@@ -36,6 +38,8 @@ func GetType(topic string) Type {
 		return TypeWhispers
 	case TypeModerationAction:
 		return TypeModerationAction
+	case TypePoints:
+		return TypePoints
 	}
 
 	return TypeInvalid

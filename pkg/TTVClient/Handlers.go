@@ -7,6 +7,7 @@ type SubscriptionsHandlerFunction func(message SubscriptionMsg)
 type CommerceHandlerFunction func(message CommerceMsg)
 type WhispersHandlerFunction func(message WhisperMsg)
 type ModerationActionHandlerFunction func(message ModerationActionMsg)
+type PointsHandlerFunction func(message PointsMsg)
 type ResultFunction func() *IncomingMessage
 type LogFunction func(...interface{})
 
@@ -34,16 +35,16 @@ func (c *Client) SetModerationHandler(h ModerationActionHandlerFunction) {
 	c.moderationHandler = h
 }
 
-/**
-Handler triggers for all messages received by the client
-*/
+func (c *Client) SetPointsHandler(h PointsHandlerFunction) {
+	c.pointsHandler = h
+}
+
+//SetCatchAllHandler Handler triggers for all messages received by the client
 func (c *Client) SetCatchAllHandler(h HandlerFunction) {
 	c.catchAllHandler = h
 }
 
-/**
-Handles unknown messages
-*/
+//SetUnknownHandler Handles unknown messages
 func (c *Client) SetUnknownHandler(h HandlerFunction) {
 	c.unknownHandler = h
 }

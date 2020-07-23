@@ -1,10 +1,11 @@
-# Twitch.tv pubsub client
+# Twitch.tv pubsub client (Updated with channel points)
 
 ## Author
-* Lauri Orgla `theorx@hotmail.com`
+* Lauri Orgla `theorx@hotmail.com` (Original developper)
+* TomavecLeVdsl
 
 ## Description
-*PUBSUB Websocket api client implementation written in golang, motivation was to build a client
+* PUBSUB Websocket api client implementation written in golang, motivation was to build a client
 that actually works. There are other implementations that are not working so well or are not 
 working at all. This implementation covers all publicly documented behaviours of the pubsub api
 and also one undocumented `moderation actions` topic.*
@@ -46,6 +47,7 @@ c.Subscribe(..)
 	client.SetCommerceHandler(func(message TTVClient.CommerceMsg) {})
 	client.SetBitsBadgeHandler(func(message TTVClient.BitsBadgeMsg) {})
 	client.SetSubscriptionsHandler(func(message TTVClient.SubscriptionMsg) {})
+	client.SetPointsHandler(func(message TTVClient.PointsMsg) {})
 	client.SetWhisperHandler(func(message TTVClient.WhisperMsg) {})
 	client.SetUnknownHandler(func(message TTVClient.IncomingMessage) {})
 ```
@@ -68,6 +70,7 @@ c.Subscribe(..)
 		Topic.BitsBadgeNotification(1),
 		Topic.Commerce(1),
 		Topic.Whispers(1),
+		Topic.Points(1),
 		Topic.Subscriptions(1),
 		Topic.ModerationAction(1, 2),
 	})
@@ -77,6 +80,7 @@ c.Subscribe(..)
 		Topic.BitsBadgeNotification(1),
 		Topic.Commerce(1),
 		Topic.Whispers(1),
+		Topic.Points(1),
 		Topic.Subscriptions(1),
 		Topic.ModerationAction(1, 2),
 	})
@@ -89,6 +93,7 @@ c.Subscribe(..)
 * Topic.Whispers(`user id`)
 * Topic.Subscriptions(`channel id`)
 * Topic.ModerationAction(`user id`, `channel id`)
+* Topic.Points(`user id`)
 
 * Closing the connection - `client.Close()`
 
@@ -105,8 +110,8 @@ c.Subscribe(..)
 package main
 
 import (
-	"github.com/theorx/go-ttv-pubsub/pkg/TTVClient"
-	"github.com/theorx/go-ttv-pubsub/pkg/Topic"
+	"github.com/TomAvecLeVdsl/go-ttv-pubsub/pkg/TTVClient"
+	"github.com/TomAvecLeVdsl/go-ttv-pubsub/pkg/Topic"
 	"log"
 	"time"
 )
@@ -127,9 +132,14 @@ func main() {
 		log.Println("Moderation event received", message)
 	})
 
+	client.SetModerationHandler(func(message TTVClient.ModerationActionMsg) {
+		log.Println("Channel Points event received", message)
+	})
+
 	err = client.Subscribe(
 		[]Topic.Topic{
 			Topic.ModerationAction(64417816, 64417816),
+			Topic.Points(64417816),
 		},
 	)
 

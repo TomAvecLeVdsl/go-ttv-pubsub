@@ -2,13 +2,18 @@ package TTVClient
 
 import (
 	"errors"
-	"github.com/theorx/go-ttv-pubsub/pkg/Topic"
 	"sync/atomic"
+
+	"github.com/TomAvecLeVdsl/go-ttv-pubsub/pkg/Topic"
 )
 
+//ErrorOperationFailed When operation fail
 var ErrorOperationFailed = errors.New("sub/unsub operation failed")
+
+//ErrorNotConnected When not connected
 var ErrorNotConnected = errors.New("not connected")
 
+//Subscribe Subscribing to a twitch event
 func (c *Client) Subscribe(topics []Topic.Topic) error {
 	if c.isConnected() == false {
 		return ErrorNotConnected
@@ -39,6 +44,7 @@ func (c *Client) Subscribe(topics []Topic.Topic) error {
 	return ErrorOperationFailed
 }
 
+//Unsubscribe Unsubscribing to a twitch event
 func (c *Client) Unsubscribe(topics []Topic.Topic) error {
 	if c.isConnected() == false {
 		return ErrorNotConnected
@@ -102,6 +108,7 @@ func (c *Client) mergeTopics(topics []Topic.Topic) {
 	}
 }
 
+//Close Closing connecton to twitch pubsub websocket
 func (c *Client) Close() error {
 	c.log("Closing websocket client..")
 	atomic.StoreInt64(&c.connectionStatus, 2) //ping loop will die
