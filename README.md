@@ -93,7 +93,7 @@ c.Subscribe(..)
 * Topic.Whispers(`user id`)
 * Topic.Subscriptions(`channel id`)
 * Topic.ModerationAction(`user id`, `channel id`)
-* Topic.Points(`user id`)
+* Topic.Points(`channel id`)
 
 * Closing the connection - `client.Close()`
 
@@ -134,6 +134,8 @@ func main() {
 
 	client.SetModerationHandler(func(message TTVClient.ModerationActionMsg) {
 		log.Println("Channel Points event received", message)
+		if message.Data.Redemption.Reward.Title == "My Cool Redemption" {
+		}
 	})
 
 	err = client.Subscribe(
